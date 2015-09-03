@@ -1,0 +1,6 @@
+Visual Basic.Net Compiler version 0.0.0.5943 (Mono 3.8 - mono-4.0.0-branch/e48cb0d)
+Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
+
+vbnc : Command line : warning VBNC2009: the option platform was not recognized - ignored
+vbnc : Command line : error VBNC2011: No files to compile! Cannot do anything!
+Compilation took 00:00:00.1115490
