@@ -13,13 +13,13 @@ fi
 
 # Move to src dir
 APP_PATH=`echo $0 | awk '{split($0,patharr,"/"); idx=1; while(patharr[idx+1] != "") { if (patharr[idx] != "/") {printf("%s/", patharr[idx]); idx++ }} }'`
-APP_PATH=`cd "$APP_PATH"; pwd` 
+APP_PATH=`cd "$APP_PATH"; pwd`
 cd "$APP_PATH"
 
 GAME_NAME=${APP_PATH##*/}
-
 FULL_APP_PATH=$APP_PATH
 APP_PATH="."
+
 
 #Set the basic paths
 OUT_DIR="${APP_PATH}/bin"
@@ -29,6 +29,32 @@ SRC_DIR="${APP_PATH}/src"
 LIB_DIR="${APP_PATH}/lib"
 LOG_FILE="${APP_PATH}/out.log"
 
+GMCS_FLAGS="-target:exe -r:./lib/SwinGame.dll,nunit.framework" #" -r:Microsoft.VisualBasic"
+CS_FLAGS="-optimize+"
+SG_INC="-I${APP_PATH}/lib/"
+
+if [ "$OS" = "$WIN" ]; then
+   export PATH=$APP_PATH/lib:/c/Program\ Files\ \(x86\)/Mono/bin/:$PATH:/c/Windows/Microsoft.NET/Framework/v4.0.30319
+   GMCS_FLAGS="$GMCS_FLAGS -platform:x86"
+fi
+
+#Locate the compiler...
+GMCS_BIN=`which mcs 2>> /dev/null`
+if [ -z "$GMCS_BIN" ]; then
+    #try locating mcs
+    GMCS_BIN=`which gmcs 2>> /dev/null`
+    if [ -z "$GMCS_BIN" ]; then
+        #try locating gmcs
+        GMCS_BIN=`which csc 2>> /dev/null`
+
+        if [ -z "$GMCS_BIN" ]; then
+            #no compiler found :(
+            echo "Unable to find a C# compiler. Install Mono or add it to your path."
+            exit -1
+        fi
+    fi
+fi
+
 if [ "$OS" = "$MAC" ]; then
     ICON="SwinGame.icns"
 else
@@ -36,27 +62,6 @@ else
 fi
 
 CLEAN="N"
-RELEASE=""
-
-VBNC_FLAGS="-target:winexe -r:./lib/SwinGame.dll -imports:System,SwinGameSDK,SwinGameSDK.SwinGame,System,System.Reflection,System.Collections.Generic,System.Collections"
-VB_FLAGS="-optimize+ -debug-"
-PLATFORM_FLAGS="-platform:x86"
-SG_INC="-I${APP_PATH}/lib/"
-
-#Locate the compiler...
-if [ "$OS" = "$WIN" ]; then
-    export PATH=$APP_PATH/lib:/c/Program\ Files\ \(x86\)/Mono/bin/:/c/Program\ Files/Mono/bin/:$PATH:/c/Windows/Microsoft.NET/Framework/v4.0.30319
-    
-    VBNC_BIN=`which vbc 2>> /dev/null`
-else
-    VBNC_BIN=`which vbnc 2>> /dev/null`
-fi
-
-if [ -z "$VBNC_BIN" ]; then
-    #no compiler found :(
-    echo "Unable to find a Visual Basic compiler. Install either vbc or vbnc."
-    exit -1
-fi
 
 #
 # Library versions
@@ -68,17 +73,19 @@ SDL_12=false
 Usage()
 {
     echo "Usage: [-c] [-h] [-d] [name]"
-    echo 
+    echo
     echo "Compiles your game into an executable application."
-    echo "Output is located in $OUT_DIR."
+    echo "Output is located in $FULL_OUT_DIR."
     echo
     echo "Options:"
     echo " -c   Perform a clean rather than a build"
-    echo " -d   Debug build"
+    echo " -r   Release build"
     echo " -h   Show this help message "
     echo " -i [icon] Change the icon file"
     exit 0
 }
+
+RELEASE=""
 
 while getopts chri:g:b:s: o
 do
@@ -88,20 +95,20 @@ do
             SDL_12=true
             SDL_13=false
             OPENGL=false
-        fi 
+        fi
         ;;
     b)  if [ "${OPTARG}" = "adass" ]; then
             SDL_12=false
             SDL_13=true
             OPENGL=false
-        fi 
+        fi
         ;;
     h)  Usage ;;
     g)  if [ "${OPTARG}" = "odly" ]; then
             SDL_12=false
             SDL_13=false
             OPENGL=true
-        fi 
+        fi
         ;;
     d)  RELEASE="Y" ;;
     i)  ICON="$OPTARG";;
@@ -131,7 +138,7 @@ elif [ "$OS" = "$WIN" ]; then
     # This needs 1.3 versions of SDL for Windows...
     # along with function sdl_gfx, sdl_ttf, sdl_image, sdl_mixer
     #
-    
+
     # if [ ${SDL_13} = true ]; then
     #   LIB_DIR="${APP_PATH}/lib/sdl13/win"
     # elif [ ${OPENGL} = true ]; then
@@ -147,17 +154,14 @@ fi
 # Change directories based on release or debug builds
 #
 if [ -n "${RELEASE}" ]; then
+    CS_FLAGS="-optimize+"
     OUT_DIR="${OUT_DIR}/Release"
     FULL_OUT_DIR="${FULL_OUT_DIR}/Release"
 else
-    VB_FLAGS="-debug:full -define:DEBUG"
+    CS_FLAGS="-debug -define:DEBUG"
     OUT_DIR="${OUT_DIR}/Debug"
     FULL_OUT_DIR="${FULL_OUT_DIR}/Debug"
 fi
-
-#
-# Remove old log file
-#
 
 if [ -f "${LOG_FILE}" ]
 then
@@ -168,38 +172,38 @@ fi
 doMacPackage()
 {
     GAMEAPP_PATH="${FULL_OUT_DIR}/${GAME_NAME}.app"
-    if [ -d "${GAMEAPP_PATH}" ] 
+    if [ -d "${GAMEAPP_PATH}" ]
     then
         echo "  ... Removing old application"
         rm -rf "${GAMEAPP_PATH}"
     fi
-    
+
     echo "  ... Creating Application Bundle"
-    
+
     macpack -m winforms -n "${GAME_NAME}" -o "${OUT_DIR}" "${OUT_DIR}/${GAME_NAME}.exe"
     # mkdir "${GAMEAPP_PATH}/Contents/Frameworks"
-    
+
     # echo "  ... Adding Private Frameworks"
     # cp -R -p "${LIB_DIR}/"*.framework "${GAMEAPP_PATH}/Contents/Frameworks/"
-    # cp -R -p "${LIB_DIR}/SwinGame.dll" "${GAMEAPP_PATH}/Contents/Resources/"
-    
+    # cp -R -p "./lib/SwinGame.dll" "${GAMEAPP_PATH}/Contents/Resources/"
+
     # pushd . >> /dev/null
     # cd "${GAMEAPP_PATH}/Contents/Resources"
     # ln -s ../Frameworks/SGSDK.framework/SGSDK libSGSDK.dylib
     # ln -s ../Frameworks ./Frameworks #Silly macpac uses ./bin folder
     # popd >> /dev/null
-    
+
     cp "${LIB_DIR}/libSGSDK.dylib" "${GAMEAPP_PATH}/Contents/Resources/libSGSDK.dylib"
-    cp -R -p "${APP_PATH}/lib/SwinGame.dll" "${GAMEAPP_PATH}/Contents/Resources/"
+    cp -R -p "./lib/SwinGame.dll" "${GAMEAPP_PATH}/Contents/Resources/"
 
     rm -f "${OUT_DIR}/${GAME_NAME}.exe"
-    
+
     if [ -f "${EXECUTABLE_NAME}.mdb" ]
     then
         echo "  ... Adding Debug Information"
         mv "${EXECUTABLE_NAME}.mdb" "${PRODUCT_NAME}.app/Contents/Resources"
     fi
-    
+
     echo "  ... Adding Application Information"
     echo "<?xml version='1.0' encoding='UTF-8'?>\
     <!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\
@@ -227,9 +231,9 @@ doMacPackage()
             <true/>\
     </dict>\
     </plist>" >> "${GAMEAPP_PATH}/Contents/Info.plist"
-    
+
     echo "APPLSWIN" >> "${GAMEAPP_PATH}/Contents/PkgInfo"
-    
+
     RESOURCE_DIR="${GAMEAPP_PATH}/Contents/Resources"
 }
 
@@ -238,46 +242,38 @@ doCompile()
     if [ ! -d ${OUT_DIR} ]; then
         mkdir -p ${OUT_DIR}
     fi
-    
-    if [ "$OS" = "$WIN" ]; then
-        ${VBNC_BIN} ${VBNC_FLAGS} ${PLATFORM_FLAGS} ${VB_FLAGS} -out:"${OUT_DIR}/${GAME_NAME}.exe" `find ${APP_PATH} -mindepth 2 -exec ${APP_PATH}/lib/cygpath -ma {} \; | grep [.]vb$` >> ${LOG_FILE}
-    else
-        ${VBNC_BIN} ${VBNC_FLAGS} ${PLATFORM_FLAGS} ${VB_FLAGS} -out:"${OUT_DIR}/${GAME_NAME}.exe" `find ${APP_PATH} -mindepth 2 | grep [.]vb$` >> ${LOG_FILE}
-    fi
 
-    if [ $? != 0 ]; then 
-      [[ -e out.log ]] && cat out.log
-      echo "Error compiling."; exit 1; 
-    fi
+    "${GMCS_BIN}" ${GMCS_FLAGS} ${CS_FLAGS} -out:"${OUT_DIR}/${GAME_NAME}.exe" `find ${APP_PATH} -mindepth 2 | grep [.]cs$` >> ${LOG_FILE}
+    if [ $? != 0 ]; then echo "Error compiling."; exit 1; fi
 }
 
 doLinuxPackage()
 {
     echo "  ... Copying SwinGame Library"
-    cp -R -p "${LIB_DIR}/SwinGame.dll" "${OUT_DIR}/"
+    cp -R -p "./lib/SwinGame.dll" "${OUT_DIR}/"
     RESOURCE_DIR="${FULL_OUT_DIR}/Resources"
 }
 
 doWindowsPackage()
 {
     RESOURCE_DIR=${FULL_OUT_DIR}/Resources
-    
+
     echo "  ... Copying libraries"
     cp -p -f "${LIB_DIR}"/*.dll "${OUT_DIR}"
-    cp -p -f "${APP_PATH}"/lib/*.dll "${OUT_DIR}"
+    cp -R -p "./lib/SwinGame.dll" "${OUT_DIR}"
 }
 
 copyWithoutSVN()
 {
     FROM_DIR=$1
     TO_DIR=$2
-    
+
     cd "${FROM_DIR}"
-    
+
     # Create directory structure
-    find . -mindepth 1 ! -path \*.svn\* ! -path \*/. -type d -exec mkdir -p "${TO_DIR}/{}" \;
+    find . -mindepth 1 -type d ! -path \*.svn\* -exec sh -c "if [ ! -d '${TO_DIR}/{}' ]; then mkdir -p '${TO_DIR}/{}'; fi" \;
     # Copy files and links
-    find . ! -path \*.svn\* ! -name \*.DS_Store ! -type d -exec cp -R -p "{}" "${TO_DIR}/{}"  \;
+    find . ! -path \*.svn\* ! -name \*.DS_Store ! -type d -exec cp -R -p {} "${TO_DIR}/{}"  \;
 }
 
 #
@@ -286,8 +282,8 @@ copyWithoutSVN()
 doCopyResources()
 {
     echo "  ... Copying Resources into $GAME_NAME"
-    
-    copyWithoutSVN "${FULL_APP_PATH}/Resources" "${RESOURCE_DIR}"
+
+    copyWithoutSVN "${APP_PATH}/Resources" "${RESOURCE_DIR}"
 }
 
 
@@ -297,18 +293,18 @@ then
     then
         mkdir -p "${OUT_DIR}"
     fi
-    
+
     echo "--------------------------------------------------"
     echo "          Creating $GAME_NAME"
     echo "          for $OS"
     echo "--------------------------------------------------"
     echo "  Running script from $FULL_APP_PATH"
     echo "  Saving output to $OUT_DIR"
-    echo "  Compiler flags ${VB_FLAGS}"
+    echo "  Compiler flags ${CS_FLAGS}"
     echo "--------------------------------------------------"
     echo "  ... Creating ${GAME_NAME}"
     doCompile
-    
+
     if [ "$OS" = "$MAC" ]; then
         doMacPackage
     elif [ "$OS" = "$LIN" ]; then
@@ -316,7 +312,7 @@ then
     else
         doWindowsPackage
     fi
-    
+
     doCopyResources
 else
     CleanTmp
