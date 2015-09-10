@@ -42,6 +42,11 @@ public class AIHardPlayer : AIPlayer
 			get { return _Source; }
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AIHardPlayer+Target"/> class.
+		/// </summary>
+		/// <param name="shootat">Shootat.</param>
+		/// <param name="source">Source.</param>
 		internal Target(Location shootat, Location source)
 		{
 			_ShotAt = shootat;
@@ -88,11 +93,28 @@ public class AIHardPlayer : AIPlayer
 		HittingShip
 	}
 
+	/// <summary>
+	/// The state of the current.
+	/// </summary>
 	private AIStates _CurrentState = AIStates.Searching;
+	/// <summary>
+	/// The targets.
+	/// </summary>
 	private Stack<Target> _Targets = new Stack<Target>();
+	/// <summary>
+	/// The last hit.
+	/// </summary>
 	private List<Target> _LastHit = new List<Target>();
 
+	/// <summary>
+	/// The current target.
+	/// </summary>
 	private Target _CurrentTarget;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="AIHardPlayer"/> class.
+	/// </summary>
+	/// <param name="game">Game.</param>	
 	public AIHardPlayer(BattleShipsGame game) : base(game)
 	{
 	}

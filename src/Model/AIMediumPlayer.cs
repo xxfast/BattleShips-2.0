@@ -22,10 +22,19 @@ public class AIMediumPlayer : AIPlayer
 		Searching,
 		TargetingShip
 	}
-
+	/// <summary>
+	/// The state of the current.
+	/// </summary>
 	private AIStates _CurrentState = AIStates.Searching;
 
+	/// <summary>
+	/// The targets.
+	/// </summary>
 	private Stack<Location> _Targets = new Stack<Location>();
+	/// <summary>
+	/// Initializes a new instance of the <see cref="AIMediumPlayer"/> class.
+	/// </summary>
+	/// <param name="controller">Controller.</param>
 	public AIMediumPlayer(BattleShipsGame controller) : base(controller)
 	{
 	}

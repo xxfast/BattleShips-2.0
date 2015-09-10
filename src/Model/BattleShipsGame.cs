@@ -30,8 +30,14 @@ public class BattleShipsGame
 	/// </remarks>
 	public event AttackCompletedHandler AttackCompleted;
 
+	/// <summary>
+	/// The players.
+	/// </summary>
 	private Player[] _players = new Player[3];
 
+	/// <summary>
+	/// The index of the player.
+	/// </summary>
 	private int _playerIndex = 0;
 	/// <summary>
 	/// The current player.
@@ -97,7 +103,7 @@ public class BattleShipsGame
 		if (newAttack.Value == ResultOfAttack.Miss) {
 			_playerIndex = otherPlayer;
 		}
-
+			
 		return newAttack;
 	}
 }

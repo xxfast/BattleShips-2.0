@@ -10,11 +10,26 @@ using System.Diagnostics;
 /// </summary>
 public class AttackResult
 {
+	/// <summary>
+	/// The value.
+	/// </summary>
 	private ResultOfAttack _Value;
+	/// <summary>
+	/// The ship.
+	/// </summary>
 	private Ship _Ship;
+	/// <summary>
+	/// The text.
+	/// </summary>
 	private string _Text;
+	/// <summary>
+	/// The row.
+	/// </summary>
 	private int _Row;
 
+	/// <summary>
+	/// The column.
+	/// </summary>
 	private int _Column;
 	/// <summary>
 	/// The result of the attack

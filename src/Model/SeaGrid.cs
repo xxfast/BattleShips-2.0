@@ -15,13 +15,25 @@ using System.Diagnostics;
 /// </remarks>
 public class SeaGrid : ISeaGrid
 {
-
+	/// <summary>
+	/// The WIDTH = 30.
+	/// </summary>
 	private const int _WIDTH = 10;
-
+	/// <summary>
+	/// The HEIGHT = 10.
+	/// </summary>
 	private const int _HEIGHT = 10;
+	/// <summary>
+	/// The game tiles.
+	/// </summary>
 	private Tile[,] _GameTiles;
+	/// <summary>
+	/// The ships.
+	/// </summary>
 	private Dictionary<ShipName, Ship> _Ships;
-
+	/// <summary>
+	/// The ships killed = 0
+	/// </summary>
 	private int _ShipsKilled = 0;
 	/// <summary>
 	/// The sea grid has changed and should be redrawn.
