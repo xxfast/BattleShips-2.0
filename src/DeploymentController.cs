@@ -37,6 +37,7 @@ static class DeploymentController
 	private static Direction _currentDirection = Direction.UpDown;
 
 	private static ShipName _selectedShip = ShipName.Tug;
+
 	/// <summary>
 	/// Handles user input for the Deployment phase of the game.
 	/// </summary>

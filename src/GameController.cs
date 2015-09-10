@@ -51,6 +51,9 @@ public static class GameController
 		get { return _ai; }
 	}
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="GameController"/> class.
+	/// </summary>
 	public GameController()
 	{
 		//bottom state will be quitting. If player exits main menu then the game is over
@@ -119,6 +122,12 @@ public static class GameController
 		SwinGame.RefreshScreen();
 	}
 
+	/// <summary>
+	/// Plaies the hit sequence.
+	/// </summary>
+	/// <param name="row">Row.</param>
+	/// <param name="column">Column.</param>
+	/// <param name="showAnimation">If set to <c>true</c> show animation.</param>
 	private static void PlayHitSequence(int row, int column, bool showAnimation)
 	{
 		if (showAnimation) {
@@ -130,6 +139,12 @@ public static class GameController
 		DrawAnimationSequence();
 	}
 
+	/// <summary>
+	/// Plaies the miss sequence.
+	/// </summary>
+	/// <param name="row">Row.</param>
+	/// <param name="column">Column.</param>
+	/// <param name="showAnimation">If set to <c>true</c> show animation.</param>
 	private static void PlayMissSequence(int row, int column, bool showAnimation)
 	{
 		if (showAnimation) {
