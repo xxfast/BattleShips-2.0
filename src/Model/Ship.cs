@@ -15,36 +15,14 @@ using System.Diagnostics;
 /// </remarks>
 public class Ship
 {
-	/// <summary>
-	/// The name of the ship.
-	/// </summary>
 	private ShipName _shipName;
-	/// <summary>
-	/// The size of ship.
-	/// </summary>
 	private int _sizeOfShip;
-	/// <summary>
-	/// The hits taken.
-	/// </summary>
 	private int _hitsTaken = 0;
-	/// <summary>
-	/// The tiles.
-	/// </summary>
 	private List<Tile> _tiles;
-	/// <summary>
-	/// The row.
-	/// </summary>
 	private int _row;
-	/// <summary>
-	/// The col.
-	/// </summary>
 	private int _col;
 
-	/// <summary>
-	/// The direction.
-	/// </summary>
 	private Direction _direction;
-
 	/// <summary>
 	/// The type of ship
 	/// </summary>
@@ -88,26 +66,14 @@ public class Ship
 		get { return _row; }
 	}
 
-	/// <summary>
-	/// Gets the column.
-	/// </summary>
-	/// <value>The column.</value>
 	public int Column {
 		get { return _col; }
 	}
 
-	/// <summary>
-	/// Gets the direction.
-	/// </summary>
-	/// <value>The direction.</value>
 	public Direction Direction {
 		get { return _direction; }
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Ship"/> class.
-	/// </summary>
-	/// <param name="ship">Ship.</param>
 	public Ship(ShipName ship)
 	{
 		_shipName = ship;
@@ -137,9 +103,6 @@ public class Ship
 		_tiles.Clear();
 	}
 
-	/// <summary>
-	/// Hit this instance.
-	/// </summary>
 	public void Hit()
 	{
 		_hitsTaken = _hitsTaken + 1;
@@ -153,10 +116,6 @@ public class Ship
 		get { return _tiles.Count > 0; }
 	}
 
-	/// <summary>
-	/// Gets a value indicating whether this instance is destroyed.
-	/// </summary>
-	/// <value><c>true</c> if this instance is destroyed; otherwise, <c>false</c>.</value>
 	public bool IsDestroyed {
 		get { return Hits == Size; }
 	}

@@ -1,0 +1,1202 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BattleShips</name>
+    </assembly>
+    <members>
+        <member name="T:DeploymentController">
+            <summary>
+            The DeploymentController controls the players actions
+            during the deployment phase.
+            </summary></member>
+        <member name="M:DeploymentController.HandleDeploymentInput">
+            <summary>
+            Handles user input for the Deployment phase of the game.
+            </summary>
+            <remarks>
+            Involves selecting the ships, deloying ships, changing the direction
+            of the ships to add, randomising deployment, end then ending
+            deployment
+            </remarks></member>
+        <member name="M:DeploymentController.DoDeployClick">
+            <summary>
+            The user has clicked somewhere on the screen, check if its is a deployment and deploy
+            the current ship if that is the case.
+            </summary>
+            <remarks>
+            If the click is in the grid it deploys to the selected location
+            with the indicated direction
+            </remarks></member>
+        <member name="M:DeploymentController.DrawDeployment">
+            <summary>
+            Draws the deployment screen showing the field and the ships
+            that the player can deploy.
+            </summary></member>
+        <member name="M:DeploymentController.GetShipMouseIsOver">
+            <summary>
+            Gets the ship that the mouse is currently over in the selection panel.
+            </summary>
+            <returns>The ship selected or none</returns></member>
+        <member name="T:DiscoveryController">
+            <summary>
+            The battle phase is handled by the DiscoveryController.
+            </summary></member>
+        <member name="M:DiscoveryController.HandleDiscoveryInput">
+            <summary>
+            Handles input during the discovery phase of the game.
+            </summary>
+            <remarks>
+            Escape opens the game menu. Clicking the mouse will
+            attack a location.
+            </remarks></member>
+        <member name="M:DiscoveryController.DoAttack">
+            <summary>
+            Attack the location that the mouse if over.
+            </summary></member>
+        <member name="M:DiscoveryController.DrawDiscovery">
+            <summary>
+            Draws the game during the attack phase.
+            </summary>s</member>
+        <member name="T:EndingGameController">
+            <summary>
+            The EndingGameController is responsible for managing the interactions at the end
+            of a game.
+            </summary></member>
+        <member name="M:EndingGameController.DrawEndOfGame">
+            <summary>
+            Draw the end of the game screen, shows the win/lose state
+            </summary></member>
+        <member name="M:EndingGameController.HandleEndOfGameInput">
+            <summary>
+            Handle the input during the end of the game. Any interaction
+            will result in it reading in the highsSwinGame.
+            </summary></member>
+        <member name="T:GameController">
+            <summary>
+            The GameController is responsible for controlling the game,
+            managing user input, and displaying the current state of the
+            game.
+            </summary></member>
+        <member name="P:GameController.CurrentState">
+            <summary>
+            Returns the current state of the game, indicating which screen is
+            currently being used
+            </summary>
+            <value>The current state</value>
+            <returns>The current state</returns></member>
+        <member name="P:GameController.HumanPlayer">
+            <summary>
+            Returns the human player.
+            </summary>
+            <value>the human player</value>
+            <returns>the human player</returns></member>
+        <member name="P:GameController.ComputerPlayer">
+            <summary>
+            Returns the computer player.
+            </summary>
+            <value>the computer player</value>
+            <returns>the conputer player</returns></member>
+        <member name="M:GameController.StartGame">
+            <summary>
+            Starts a new game.
+            </summary>
+            <remarks>
+            Creates an AI player based upon the _aiSetting.
+            </remarks></member>
+        <member name="M:GameController.EndGame">
+            <summary>
+            Stops listening to the old game once a new game is started
+            </summary></member>
+        <member name="M:GameController.GridChanged(System.Object,System.EventArgs)">
+            <summary>
+            Listens to the game grids for any changes and redraws the screen
+            when the grids change
+            </summary>
+            <param name="sender">the grid that changed</param>
+            <param name="args">not used</param></member>
+        <member name="M:GameController.AttackCompleted(System.Object,AttackResult)">
+            <summary>
+            Listens for attacks to be completed.
+            </summary>
+            <param name="sender">the game</param>
+            <param name="result">the result of the attack</param>
+            <remarks>
+            Displays a message, plays sound and redraws the screen
+            </remarks></member>
+        <member name="M:GameController.EndDeployment">
+            <summary>
+            Completes the deployment phase of the game and
+            switches to the battle mode (Discovering state)
+            </summary>
+            <remarks>
+            This adds the players to the game before switching
+            state.
+            </remarks></member>
+        <member name="M:GameController.Attack(System.Int32,System.Int32)">
+            <summary>
+            Gets the player to attack the indicated row and column.
+            </summary>
+            <param name="row">the row to attack</param>
+            <param name="col">the column to attack</param>
+            <remarks>
+            Checks the attack result once the attack is complete
+            </remarks></member>
+        <member name="M:GameController.AIAttack">
+            <summary>
+            Gets the AI to attack.
+            </summary>
+            <remarks>
+            Checks the attack result once the attack is complete.
+            </remarks></member>
+        <member name="M:GameController.CheckAttackResult(AttackResult)">
+            <summary>
+            Checks the results of the attack and switches to
+            Ending the Game if the result was game over.
+            </summary>
+            <param name="result">the result of the last
+            attack</param>
+            <remarks>Gets the AI to attack if the result switched
+            to the AI player.</remarks></member>
+        <member name="M:GameController.HandleUserInput">
+            <summary>
+            Handles the user SwinGame.
+            </summary>
+            <remarks>
+            Reads key and mouse input and converts these into
+            actions for the game to perform. The actions
+            performed depend upon the state of the game.
+            </remarks></member>
+        <member name="M:GameController.DrawScreen">
+            <summary>
+            Draws the current state of the game to the screen.
+            </summary>
+            <remarks>
+            What is drawn depends upon the state of the game.
+            </remarks></member>
+        <member name="M:GameController.AddNewState(GameState)">
+            <summary>
+            Move the game to a new state. The current state is maintained
+            so that it can be returned to.
+            </summary>
+            <param name="state">the new game state</param></member>
+        <member name="M:GameController.SwitchState(GameState)">
+            <summary>
+            End the current state and add in the new state.
+            </summary>
+            <param name="newState">the new state of the game</param></member>
+        <member name="M:GameController.EndCurrentState">
+            <summary>
+            Ends the current state, returning to the prior state
+            </summary></member>
+        <member name="M:GameController.SetDifficulty(AIOption)">
+            <summary>
+            Sets the difficulty for the next level of the game.
+            </summary>
+            <param name="setting">the new difficulty level</param></member>
+        <member name="M:GameResources.GameFont(System.String)">
+            <summary>
+            Gets a Font Loaded in the Resources
+            </summary>
+            <param name="font">Name of Font</param>
+            <returns>The Font Loaded with this Name</returns></member>
+        <member name="M:GameResources.GameImage(System.String)">
+            <summary>
+            Gets an Image loaded in the Resources
+            </summary>
+            <param name="image">Name of image</param>
+            <returns>The image loaded with this name</returns></member>
+        <member name="M:GameResources.GameSound(System.String)">
+            <summary>
+            Gets an sound loaded in the Resources
+            </summary>
+            <param name="sound">Name of sound</param>
+            <returns>The sound with this name</returns></member>
+        <member name="M:GameResources.GameMusic(System.String)">
+            <summary>
+            Gets the music loaded in the Resources
+            </summary>
+            <param name="music">Name of music</param>
+            <returns>The music with this name</returns></member>
+        <member name="M:GameResources.LoadResources">
+            <summary>
+            The Resources Class stores all of the Games Media Resources, such as Images, Fonts
+            Sounds, Music.
+            </summary></member>
+        <member name="T:GameState">
+            <summary>
+            The GameStates represent the state of the Battleships game play.
+            This is used to control the actions and view displayed to
+            the player.
+            </summary></member>
+        <member name="F:GameState.ViewingMainMenu">
+            <summary>
+            The player is viewing the main menu.
+            </summary></member>
+        <member name="F:GameState.ViewingGameMenu">
+            <summary>
+            The player is viewing the game menu
+            </summary></member>
+        <member name="F:GameState.ViewingHighScores">
+            <summary>
+            The player is looking at the high scores
+            </summary></member>
+        <member name="F:GameState.AlteringSettings">
+            <summary>
+            The player is altering the game settings
+            </summary></member>
+        <member name="F:GameState.Deploying">
+            <summary>
+            Players are deploying their ships
+            </summary></member>
+        <member name="F:GameState.Discovering">
+            <summary>
+            Players are attempting to locate each others ships
+            </summary></member>
+        <member name="F:GameState.EndingGame">
+            <summary>
+            One player has won, showing the victory screen
+            </summary></member>
+        <member name="F:GameState.Quitting">
+            <summary>
+            The player has quit. Show ending credits and terminate the game
+            </summary></member>
+        <member name="T:HighScoreController">
+            <summary>
+            Controls displaying and collecting high score data.
+            </summary>
+            <remarks>
+            Data is saved to a file.
+            </remarks></member>
+        <member name="T:HighScoreController.Score">
+            <summary>
+            The score structure is used to keep the name and
+            score of the top players together.
+            </summary></member>
+        <member name="M:HighScoreController.Score.CompareTo(System.Object)">
+            <summary>
+            Allows scores to be compared to facilitate sorting
+            </summary>
+            <param name="obj">the object to compare to</param>
+            <returns>a value that indicates the sort order</returns></member>
+        <member name="M:HighScoreController.LoadScores">
+            <summary>
+            Loads the scores from the highscores text file.
+            </summary>
+            <remarks>
+            The format is
+            # of scores
+            NNNSSS
+            Where NNN is the name and SSS is the score
+            </remarks></member>
+        <member name="M:HighScoreController.SaveScores">
+            <summary>
+            Saves the scores back to the highscores text file.
+            </summary>
+            <remarks>
+            The format is
+            # of scores
+            NNNSSS
+            Where NNN is the name and SSS is the score
+            </remarks></member>
+        <member name="M:HighScoreController.DrawHighScores">
+            <summary>
+            Draws the high scores to the screen.
+            </summary></member>
+        <member name="M:HighScoreController.HandleHighScoreInput">
+            <summary>
+            Handles the user input during the top score screen.
+            </summary>
+            <remarks></remarks></member>
+        <member name="M:HighScoreController.ReadHighScore(System.Int32)">
+            <summary>
+            Read the user's name for their highsSwinGame.
+            </summary>
+            <param name="value">the player's sSwinGame.</param>
+            <remarks>
+            This verifies if the score is a highsSwinGame.
+            </remarks></member>
+        <member name="T:MenuController">
+            <summary>
+            The menu controller handles the drawing and user interactions
+            from the menus in the game. These include the main menu, game
+            menu and the settings m,enu.
+            </summary></member>
+        <member name="F:MenuController._menuStructure">
+            <summary>
+            The menu structure for the game.
+            </summary>
+            <remarks>
+            These are the text captions for the menu items.
+            </remarks></member>
+        <member name="M:MenuController.HandleMainMenuInput">
+            <summary>
+            Handles the processing of user input when the main menu is showing
+            </summary></member>
+        <member name="M:MenuController.HandleSetupMenuInput">
+            <summary>
+            Handles the processing of user input when the main menu is showing
+            </summary></member>
+        <member name="M:MenuController.HandleGameMenuInput">
+            <summary>
+            Handle input in the game menu.
+            </summary>
+            <remarks>
+            Player can return to the game, surrender, or quit entirely
+            </remarks></member>
+        <member name="M:MenuController.HandleMenuInput(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Handles input for the specified menu.
+            </summary>
+            <param name="menu">the identifier of the menu being processed</param>
+            <param name="level">the vertical level of the menu</param>
+            <param name="xOffset">the xoffset of the menu</param>
+            <returns>false if a clicked missed the buttons. This can be used to check prior menus.</returns></member>
+        <member name="M:MenuController.DrawMainMenu">
+            <summary>
+            Draws the main menu to the screen.
+            </summary></member>
+        <member name="M:MenuController.DrawGameMenu">
+            <summary>
+            Draws the Game menu to the screen
+            </summary></member>
+        <member name="M:MenuController.DrawSettings">
+            <summary>
+            Draws the settings menu to the screen.
+            </summary>
+            <remarks>
+            Also shows the main menu
+            </remarks></member>
+        <member name="M:MenuController.DrawButtons(System.Int32)">
+            <summary>
+            Draw the buttons associated with a top level menu.
+            </summary>
+            <param name="menu">the index of the menu to draw</param></member>
+        <member name="M:MenuController.DrawButtons(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws the menu at the indicated level.
+            </summary>
+            <param name="menu">the menu to draw</param>
+            <param name="level">the level (height) of the menu</param>
+            <param name="xOffset">the offset of the menu</param>
+            <remarks>
+            The menu text comes from the _menuStructure field. The level indicates the height
+            of the menu, to enable sub menus. The xOffset repositions the menu horizontally
+            to allow the submenus to be positioned correctly.
+            </remarks></member>
+        <member name="M:MenuController.IsMouseOverButton(System.Int32)">
+            <summary>
+            Determined if the mouse is over one of the button in the main menu.
+            </summary>
+            <param name="button">the index of the button to check</param>
+            <returns>true if the mouse is over that button</returns></member>
+        <member name="M:MenuController.IsMouseOverMenu(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Checks if the mouse is over one of the buttons in a menu.
+            </summary>
+            <param name="button">the index of the button to check</param>
+            <param name="level">the level of the menu</param>
+            <param name="xOffset">the xOffset of the menu</param>
+            <returns>true if the mouse is over the button</returns></member>
+        <member name="M:MenuController.PerformMenuAction(System.Int32,System.Int32)">
+            <summary>
+            A button has been clicked, perform the associated action.
+            </summary>
+            <param name="menu">the menu that has been clicked</param>
+            <param name="button">the index of the button that was clicked</param></member>
+        <member name="M:MenuController.PerformMainMenuAction(System.Int32)">
+            <summary>
+            The main menu was clicked, perform the button's action.
+            </summary>
+            <param name="button">the button pressed</param></member>
+        <member name="M:MenuController.PerformSetupMenuAction(System.Int32)">
+            <summary>
+            The setup menu was clicked, perform the button's action.
+            </summary>
+            <param name="button">the button pressed</param></member>
+        <member name="M:MenuController.PerformGameMenuAction(System.Int32)">
+            <summary>
+            The game menu was clicked, perform the button's action.
+            </summary>
+            <param name="button">the button pressed</param></member>
+        <member name="T:UtilityFunctions">
+            <summary>
+            This includes a number of utility methods for
+            drawing and interacting with the Mouse.
+            </summary></member>
+        <member name="M:UtilityFunctions.IsMouseInRectangle(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Determines if the mouse is in a given rectangle.
+            </summary>
+            <param name="x">the x location to check</param>
+            <param name="y">the y location to check</param>
+            <param name="w">the width to check</param>
+            <param name="h">the height to check</param>
+            <returns>true if the mouse is in the area checked</returns></member>
+        <member name="M:UtilityFunctions.DrawField(ISeaGrid,Player,System.Boolean)">
+            <summary>
+            Draws a large field using the grid and the indicated player's ships.
+            </summary>
+            <param name="grid">the grid to draw</param>
+            <param name="thePlayer">the players ships to show</param>
+            <param name="showShips">indicates if the ships should be shown</param></member>
+        <member name="M:UtilityFunctions.DrawSmallField(ISeaGrid,Player)">
+            <summary>
+            Draws a small field, showing the attacks made and the locations of the player's ships
+            </summary>
+            <param name="grid">the grid to show</param>
+            <param name="thePlayer">the player to show the ships of</param></member>
+        <member name="M:UtilityFunctions.DrawCustomField(ISeaGrid,Player,System.Boolean,System.Boolean,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws the player's grid and ships.
+            </summary>
+            <param name="grid">the grid to show</param>
+            <param name="thePlayer">the player to show the ships of</param>
+            <param name="small">true if the small grid is shown</param>
+            <param name="showShips">true if ships are to be shown</param>
+            <param name="left">the left side of the grid</param>
+            <param name="top">the top of the grid</param>
+            <param name="width">the width of the grid</param>
+            <param name="height">the height of the grid</param>
+            <param name="cellWidth">the width of each cell</param>
+            <param name="cellHeight">the height of each cell</param>
+            <param name="cellGap">the gap between the cells</param></member>
+        <member name="P:UtilityFunctions.Message">
+            <summary>
+            The message to display
+            </summary>
+            <value>The message to display</value>
+            <returns>The message to display</returns></member>
+        <member name="M:UtilityFunctions.DrawMessage">
+            <summary>
+            Draws the message to the screen
+            </summary></member>
+        <member name="M:UtilityFunctions.DrawBackground">
+            <summary>
+            Draws the background for the current state of the game
+            </summary></member>
+        <member name="T:AIHardPlayer">
+            <summary>
+            AIHardPlayer is a type of player. This AI will know directions of ships
+            when it has found 2 ship tiles and will try to destroy that ship. If that ship
+            is not destroyed it will shoot the other way. Ship still not destroyed, then
+            the AI knows it has hit multiple ships. Then will try to destoy all around tiles
+            that have been hit.
+            </summary></member>
+        <member name="T:AIHardPlayer.Target">
+            <summary>
+            Target allows the AI to know more things, for example the source of a
+            shot target
+            </summary></member>
+        <member name="P:AIHardPlayer.Target.ShotAt">
+            <summary>
+            The target shot at
+            </summary>
+            <value>The target shot at</value>
+            <returns>The target shot at</returns></member>
+        <member name="P:AIHardPlayer.Target.Source">
+            <summary>
+            The source that added this location as a target.
+            </summary>
+            <value>The source that added this location as a target.</value>
+            <returns>The source that added this location as a target.</returns></member>
+        <member name="P:AIHardPlayer.Target.SameRow">
+            <summary>
+            If source shot and shootat shot are on the same row then
+            give a boolean true
+            </summary></member>
+        <member name="P:AIHardPlayer.Target.SameColumn">
+            <summary>
+            If source shot and shootat shot are on the same column then
+            give a boolean true
+            </summary></member>
+        <member name="T:AIHardPlayer.AIStates">
+            <summary>
+            Private enumarator for AI states. currently there are two states,
+            the AI can be searching for a ship, or if it has found a ship it will
+            target the same ship
+            </summary></member>
+        <member name="F:AIHardPlayer.AIStates.Searching">
+            <summary>
+            The AI is searching for its next target
+            </summary></member>
+        <member name="F:AIHardPlayer.AIStates.TargetingShip">
+            <summary>
+            The AI is trying to target a ship
+            </summary></member>
+        <member name="F:AIHardPlayer.AIStates.HittingShip">
+            <summary>
+            The AI is locked onto a ship
+            </summary></member>
+        <member name="M:AIHardPlayer.GenerateCoords(System.Int32@,System.Int32@)">
+            <summary>
+            GenerateCoords will call upon the right methods to generate the appropriate shooting
+            coordinates
+            </summary>
+            <param name="row">the row that will be shot at</param>
+            <param name="column">the column that will be shot at</param></member>
+        <member name="M:AIHardPlayer.TargetCoords(System.Int32@,System.Int32@)">
+            <summary>
+            TargetCoords is used when a ship has been hit and it will try and destroy
+            this ship
+            </summary>
+            <param name="row">row generated around the hit tile</param>
+            <param name="column">column generated around the hit tile</param></member>
+        <member name="M:AIHardPlayer.SearchCoords(System.Int32@,System.Int32@)">
+            <summary>
+            SearchCoords will randomly generate shots within the grid as long as its not hit that tile already
+            </summary>
+            <param name="row">the generated row</param>
+            <param name="column">the generated column</param></member>
+        <member name="M:AIHardPlayer.ProcessShot(System.Int32,System.Int32,AttackResult)">
+            <summary>
+            ProcessShot is able to process each shot that is made and call the right methods belonging
+            to that shot. For example, if its a miss = do nothing, if it's a hit = process that hit location
+            </summary>
+            <param name="row">the row that was shot at</param>
+            <param name="col">the column that was shot at</param>
+            <param name="result">the result from that hit</param></member>
+        <member name="M:AIHardPlayer.ProcessDestroy(System.Int32,System.Int32,Ship)">
+            <summary>
+            ProcessDetroy is able to process the destroyed ships targets and remove _LastHit targets.
+            It will also call RemoveShotsAround to remove targets that it was going to shoot at
+            </summary>
+            <param name="row">the row that was shot at and destroyed</param>
+            <param name="col">the row that was shot at and destroyed</param>
+            <param name="ship">the row that was shot at and destroyed</param></member>
+        <member name="M:AIHardPlayer.RemoveShotsAround(AIPlayer.Location)">
+            <summary>
+            RemoveShotsAround will remove targets that belong to the destroyed ship by checking if
+            the source of the targets belong to the destroyed ship. If they don't put them on a new stack.
+            Then clear the targets stack and move all the targets that still need to be shot at back
+            onto the targets stack
+            </summary>
+            <param name="toRemove"></param></member>
+        <member name="M:AIHardPlayer.ProcessHit(System.Int32,System.Int32)">
+            <summary>
+            ProcessHit gets the last hit location coordinates and will ask AddTarget to
+            create targets around that location by calling the method four times each time with
+            a new location around the last hit location.
+            It will then set the state of the AI and if it's not Searching or targetingShip then
+            start ReOrderTargets.
+            </summary>
+            <param name="row"></param>
+            <param name="col"></param></member>
+        <member name="M:AIHardPlayer.ReOrderTargets">
+            <summary>
+            ReOrderTargets will optimise the targeting by re-orderin the stack that the targets are in.
+            By putting the most important targets at the top they are the ones that will be shot at first.
+            </summary></member>
+        <member name="M:AIHardPlayer.MoveToTopOfStack(System.Int32,System.Int32)">
+            <summary>
+            MoveToTopOfStack will re-order the stack by checkin the coordinates of each target
+            If they have the right column or row values it will be moved to the _Match stack else
+            put it on the _NoMatch stack. Then move all the targets from the _NoMatch stack back on the
+            _Targets stack, these will be at the bottom making them less important. The move all the
+            targets from the _Match stack on the _Targets stack, these will be on the top and will there
+            for be shot at first
+            </summary>
+            <param name="row">the row of the optimisation</param>
+            <param name="column">the column of the optimisation</param></member>
+        <member name="M:AIHardPlayer.AddTarget(System.Int32,System.Int32)">
+            <summary>
+            AddTarget will add the targets it will shoot onto a stack
+            </summary>
+            <param name="row">the row of the targets location</param>
+            <param name="column">the column of the targets location</param></member>
+        <member name="T:AIMediumPlayer">
+            <summary>
+            The AIMediumPlayer is a type of AIPlayer where it will try and destroy a ship
+            if it has found a ship
+            </summary></member>
+        <member name="T:AIMediumPlayer.AIStates">
+            <summary>
+            Private enumarator for AI states. currently there are two states,
+            the AI can be searching for a ship, or if it has found a ship it will
+            target the same ship
+            </summary></member>
+        <member name="M:AIMediumPlayer.GenerateCoords(System.Int32@,System.Int32@)">
+            <summary>
+            GenerateCoordinates should generate random shooting coordinates
+            only when it has not found a ship, or has destroyed a ship and
+            needs new shooting coordinates
+            </summary>
+            <param name="row">the generated row</param>
+            <param name="column">the generated column</param></member>
+        <member name="M:AIMediumPlayer.TargetCoords(System.Int32@,System.Int32@)">
+            <summary>
+            TargetCoords is used when a ship has been hit and it will try and destroy
+            this ship
+            </summary>
+            <param name="row">row generated around the hit tile</param>
+            <param name="column">column generated around the hit tile</param></member>
+        <member name="M:AIMediumPlayer.SearchCoords(System.Int32@,System.Int32@)">
+            <summary>
+            SearchCoords will randomly generate shots within the grid as long as its not hit that tile already
+            </summary>
+            <param name="row">the generated row</param>
+            <param name="column">the generated column</param></member>
+        <member name="M:AIMediumPlayer.ProcessShot(System.Int32,System.Int32,AttackResult)">
+            <summary>
+            ProcessShot will be called uppon when a ship is found.
+            It will create a stack with targets it will try to hit. These targets
+            will be around the tile that has been hit.
+            </summary>
+            <param name="row">the row it needs to process</param>
+            <param name="col">the column it needs to process</param>
+            <param name="result">the result og the last shot (should be hit)</param></member>
+        <member name="M:AIMediumPlayer.AddTarget(System.Int32,System.Int32)">
+            <summary>
+            AddTarget will add the targets it will shoot onto a stack
+            </summary>
+            <param name="row">the row of the targets location</param>
+            <param name="column">the column of the targets location</param></member>
+        <member name="T:AIOption">
+            <summary>
+            The different AI levels.
+            </summary></member>
+        <member name="F:AIOption.Easy">
+            <summary>
+            Easy, total random shooting
+            </summary></member>
+        <member name="F:AIOption.Medium">
+            <summary>
+            Medium, marks squares around hits
+            </summary></member>
+        <member name="F:AIOption.Hard">
+            <summary>
+            As medium, but removes shots once it misses
+            </summary></member>
+        <member name="T:AIPlayer">
+            <summary>
+            The AIPlayer is a type of player. It can readomly deploy ships, it also has the
+            functionality to generate coordinates and shoot at tiles
+            </summary></member>
+        <member name="T:AIPlayer.Location">
+            <summary>
+            Location can store the location of the last hit made by an
+            AI Player. The use of which determines the difficulty.
+            </summary></member>
+        <member name="P:AIPlayer.Location.Row">
+            <summary>
+            The row of the shot
+            </summary>
+            <value>The row of the shot</value>
+            <returns>The row of the shot</returns></member>
+        <member name="P:AIPlayer.Location.Column">
+            <summary>
+            The column of the shot
+            </summary>
+            <value>The column of the shot</value>
+            <returns>The column of the shot</returns></member>
+        <member name="M:AIPlayer.Location.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Sets the last hit made to the local variables
+            </summary>
+            <param name="row">the row of the location</param>
+            <param name="column">the column of the location</param></member>
+        <member name="M:AIPlayer.Location.op_Equality(AIPlayer.Location,AIPlayer.Location)">
+            <summary>
+            Check if two locations are equal
+            </summary>
+            <param name="this">location 1</param>
+            <param name="other">location 2</param>
+            <returns>true if location 1 and location 2 are at the same spot</returns></member>
+        <member name="M:AIPlayer.Location.op_Inequality(AIPlayer.Location,AIPlayer.Location)">
+            <summary>
+            Check if two locations are not equal
+            </summary>
+            <param name="this">location 1</param>
+            <param name="other">location 2</param>
+            <returns>true if location 1 and location 2 are not at the same spot</returns></member>
+        <member name="M:AIPlayer.GenerateCoords(System.Int32@,System.Int32@)">
+            <summary>
+            Generate a valid row, column to shoot at
+            </summary>
+            <param name="row">output the row for the next shot</param>
+            <param name="column">output the column for the next show</param></member>
+        <member name="M:AIPlayer.ProcessShot(System.Int32,System.Int32,AttackResult)">
+            <summary>
+            The last shot had the following result. Child classes can use this
+            to prepare for the next shot.
+            </summary>
+            <param name="result">The result of the shot</param>
+            <param name="row">the row shot</param>
+            <param name="col">the column shot</param></member>
+        <member name="M:AIPlayer.Attack">
+            <summary>
+            The AI takes its attacks until its go is over.
+            </summary>
+            <returns>The result of the last attack</returns></member>
+        <member name="M:AIPlayer.Delay">
+            <summary>
+            Wait a short period to simulate the think time
+            </summary></member>
+        <member name="T:AttackResult">
+            <summary>
+            AttackResult gives the result after a shot has been made.
+            </summary></member>
+        <member name="P:AttackResult.Value">
+            <summary>
+            The result of the attack
+            </summary>
+            <value>The result of the attack</value>
+            <returns>The result of the attack</returns></member>
+        <member name="P:AttackResult.Ship">
+            <summary>
+            The ship, if any, involved in this result
+            </summary>
+            <value>The ship, if any, involved in this result</value>
+            <returns>The ship, if any, involved in this result</returns></member>
+        <member name="P:AttackResult.Text">
+            <summary>
+            A textual description of the result.
+            </summary>
+            <value>A textual description of the result.</value>
+            <returns>A textual description of the result.</returns>
+            <remarks>A textual description of the result.</remarks></member>
+        <member name="P:AttackResult.Row">
+            <summary>
+            The row where the attack occurred
+            </summary></member>
+        <member name="P:AttackResult.Column">
+            <summary>
+            The column where the attack occurred
+            </summary></member>
+        <member name="M:AttackResult.#ctor(ResultOfAttack,System.String,System.Int32,System.Int32)">
+            <summary>
+            Set the _Value to the PossibleAttack value
+            </summary>
+            <param name="value">either hit, miss, destroyed, shotalready</param></member>
+        <member name="M:AttackResult.#ctor(ResultOfAttack,Ship,System.String,System.Int32,System.Int32)">
+            <summary>
+            Set the _Value to the PossibleAttack value, and the _Ship to the ship
+            </summary>
+            <param name="value">either hit, miss, destroyed, shotalready</param>
+            <param name="ship">the ship information</param></member>
+        <member name="M:AttackResult.ToString">
+            <summary>
+            Displays the textual information about the attack
+            </summary>
+            <returns>The textual information about the attack</returns></member>
+        <member name="T:BattleShipsGame">
+            <summary>
+            The BattleShipsGame controls a big part of the game. It will add the two players
+            to the game and make sure that both players ships are all deployed before starting the game.
+            It also allows players to shoot and swap turns between player. It will also check if players
+            are destroyed.
+            </summary></member>
+        <member name="T:BattleShipsGame.AttackCompletedHandler">
+            <summary>
+            The attack delegate type is used to send notifications of the end of an
+            attack by a player or the AI.
+            </summary>
+            <param name="sender">the game sending the notification</param>
+            <param name="result">the result of the attack</param></member>
+        <member name="E:BattleShipsGame.AttackCompleted">
+            <summary>
+            The AttackCompleted event is raised when an attack has completed.
+            </summary>
+            <remarks>
+            This is used by the UI to play sound effects etc.
+            </remarks></member>
+        <member name="P:BattleShipsGame.Player">
+            <summary>
+            The current player.
+            </summary>
+            <value>The current player</value>
+            <returns>The current player</returns>
+            <remarks>This value will switch between the two players as they have their attacks</remarks></member>
+        <member name="M:BattleShipsGame.AddDeployedPlayer(Player)">
+            <summary>
+            AddDeployedPlayer adds both players and will make sure
+            that the AI player deploys all ships
+            </summary>
+            <param name="p"></param></member>
+        <member name="M:BattleShipsGame.CompleteDeployment">
+            <summary>
+            Assigns each player the other's grid as the enemy grid. This allows each player
+            to examine the details visable on the other's sea grid.
+            </summary></member>
+        <member name="M:BattleShipsGame.Shoot(System.Int32,System.Int32)">
+            <summary>
+            Shoot will swap between players and check if a player has been killed.
+            It also allows the current player to hit on the enemygrid.
+            </summary>
+            <param name="row">the row fired upon</param>
+            <param name="col">the column fired upon</param>
+            <returns>The result of the attack</returns></member>
+        <member name="T:Direction">
+            <summary>
+            The direction the ship can be oriented.
+            </summary></member>
+        <member name="F:Direction.LeftRight">
+            <summary>
+            The ship is oriented left/right
+            </summary></member>
+        <member name="F:Direction.UpDown">
+            <summary>
+            The ship is oriented up/down
+            </summary></member>
+        <member name="T:ISeaGrid">
+            <summary>
+            The ISeaGrid defines the read only interface of a Grid. This
+            allows each player to see and attack their opponents grid.
+            </summary></member>
+        <member name="E:ISeaGrid.Changed">
+            <summary>
+            Indicates that the grid has changed.
+            </summary></member>
+        <member name="P:ISeaGrid.Item(System.Int32,System.Int32)">
+            <summary>
+            Provides access to the given row/column
+            </summary>
+            <param name="row">the row to access</param>
+            <param name="column">the column to access</param>
+            <value>what the player can see at that location</value>
+            <returns>what the player can see at that location</returns></member>
+        <member name="M:ISeaGrid.HitTile(System.Int32,System.Int32)">
+            <summary>
+            Mark the indicated tile as shot.
+            </summary>
+            <param name="row">the row of the tile</param>
+            <param name="col">the column of the tile</param>
+            <returns>the result of the attack</returns></member>
+        <member name="T:Player">
+            <summary>
+            Player has its own _PlayerGrid, and can see an _EnemyGrid, it can also check if
+            all ships are deployed and if all ships are detroyed. A Player can also attach.
+            </summary></member>
+        <member name="P:Player.Game">
+            <summary>
+            Returns the game that the player is part of.
+            </summary>
+            <value>The game</value>
+            <returns>The game that the player is playing</returns></member>
+        <member name="P:Player.Enemy">
+            <summary>
+            Sets the grid of the enemy player
+            </summary>
+            <value>The enemy's sea grid</value></member>
+        <member name="P:Player.EnemyGrid">
+            <summary>
+            The EnemyGrid is a ISeaGrid because you shouldn't be allowed to see the enemies ships
+            </summary></member>
+        <member name="P:Player.PlayerGrid">
+            <summary>
+            The PlayerGrid is just a normal SeaGrid where the players ships can be deployed and seen
+            </summary></member>
+        <member name="P:Player.ReadyToDeploy">
+            <summary>
+            ReadyToDeploy returns true if all ships are deployed
+            </summary></member>
+        <member name="M:Player.Ship(ShipName)">
+            <summary>
+            Returns the Player's ship with the given name.
+            </summary>
+            <param name="name">the name of the ship to return</param>
+            <value>The ship</value>
+            <returns>The ship with the indicated name</returns>
+            <remarks>The none ship returns nothing/null</remarks></member>
+        <member name="P:Player.Shots">
+            <summary>
+            The number of shots the player has made
+            </summary>
+            <value>shots taken</value>
+            <returns>teh number of shots taken</returns></member>
+        <member name="P:Player.Missed">
+            <summary>
+            Total number of shots that missed
+            </summary>
+            <value>miss count</value>
+            <returns>the number of shots that have missed ships</returns></member>
+        <member name="M:Player.GetShipEnumerator">
+            <summary>
+            Makes it possible to enumerate over the ships the player
+            has.
+            </summary>
+            <returns>A Ship enumerator</returns></member>
+        <member name="M:Player.GetEnumerator">
+            <summary>
+            Makes it possible to enumerate over the ships the player
+            has.
+            </summary>
+            <returns>A Ship enumerator</returns></member>
+        <member name="M:Player.Attack">
+            <summary>
+            Vitual Attack allows the player to shoot
+            </summary></member>
+        <member name="M:Player.Shoot(System.Int32,System.Int32)">
+            <summary>
+            Shoot at a given row/column
+            </summary>
+            <param name="row">the row to attack</param>
+            <param name="col">the column to attack</param>
+            <returns>the result of the attack</returns></member>
+        <member name="T:ResultOfAttack">
+            <summary>
+            The result of an attack.
+            </summary></member>
+        <member name="F:ResultOfAttack.Hit">
+            <summary>
+            The player hit something
+            </summary></member>
+        <member name="F:ResultOfAttack.Miss">
+            <summary>
+            The player missed
+            </summary></member>
+        <member name="F:ResultOfAttack.Destroyed">
+            <summary>
+            The player destroyed a ship
+            </summary></member>
+        <member name="F:ResultOfAttack.ShotAlready">
+            <summary>
+            That location was already shot.
+            </summary></member>
+        <member name="F:ResultOfAttack.GameOver">
+            <summary>
+            The player killed all of the opponents ships
+            </summary></member>
+        <member name="T:SeaGrid">
+            <summary>
+            The SeaGrid is the grid upon which the ships are deployed.
+            </summary>
+            <remarks>
+            The grid is viewable via the ISeaGrid interface as a read only
+            grid. This can be used in conjuncture with the SeaGridAdapter to
+            mask the position of the ships.
+            </remarks></member>
+        <member name="E:SeaGrid.Changed">
+            <summary>
+            The sea grid has changed and should be redrawn.
+            </summary></member>
+        <member name="P:SeaGrid.Width">
+            <summary>
+            The width of the sea grid.
+            </summary>
+            <value>The width of the sea grid.</value>
+            <returns>The width of the sea grid.</returns></member>
+        <member name="P:SeaGrid.Height">
+            <summary>
+            The height of the sea grid
+            </summary>
+            <value>The height of the sea grid</value>
+            <returns>The height of the sea grid</returns></member>
+        <member name="P:SeaGrid.ShipsKilled">
+            <summary>
+            ShipsKilled returns the number of ships killed
+            </summary></member>
+        <member name="P:SeaGrid.Item(System.Int32,System.Int32)">
+            <summary>
+            Show the tile view
+            </summary>
+            <param name="x">x coordinate of the tile</param>
+            <param name="y">y coordiante of the tile</param>
+            <returns></returns></member>
+        <member name="P:SeaGrid.AllDeployed">
+            <summary>
+            AllDeployed checks if all the ships are deployed
+            </summary></member>
+        <member name="M:SeaGrid.#ctor(System.Collections.Generic.Dictionary{ShipName,Ship})">
+            <summary>
+            SeaGrid constructor, a seagrid has a number of tiles stored in an array
+            </summary></member>
+        <member name="M:SeaGrid.MoveShip(System.Int32,System.Int32,ShipName,Direction)">
+            <summary>
+            MoveShips allows for ships to be placed on the seagrid
+            </summary>
+            <param name="row">the row selected</param>
+            <param name="col">the column selected</param>
+            <param name="ship">the ship selected</param>
+            <param name="direction">the direction the ship is going</param></member>
+        <member name="M:SeaGrid.AddShip(System.Int32,System.Int32,Direction,Ship)">
+            <summary>
+            AddShip add a ship to the SeaGrid
+            </summary>
+            <param name="row">row coordinate</param>
+            <param name="col">col coordinate</param>
+            <param name="direction">direction of ship</param>
+            <param name="newShip">the ship</param></member>
+        <member name="M:SeaGrid.HitTile(System.Int32,System.Int32)">
+            <summary>
+            HitTile hits a tile at a row/col, and whatever tile has been hit, a
+            result will be displayed.
+            </summary>
+            <param name="row">the row at which is being shot</param>
+            <param name="col">the cloumn at which is being shot</param>
+            <returns>An attackresult (hit, miss, sunk, shotalready)</returns></member>
+        <member name="T:SeaGridAdapter">
+            <summary>
+            The SeaGridAdapter allows for the change in a sea grid view. Whenever a ship is
+            presented it changes the view into a sea tile instead of a ship tile.
+            </summary></member>
+        <member name="M:SeaGridAdapter.#ctor(SeaGrid)">
+            <summary>
+            Create the SeaGridAdapter, with the grid, and it will allow it to be changed
+            </summary>
+            <param name="grid">the grid that needs to be adapted</param></member>
+        <member name="M:SeaGridAdapter.MyGrid_Changed(System.Object,System.EventArgs)">
+            <summary>
+            MyGrid_Changed causes the grid to be redrawn by raising a changed event
+            </summary>
+            <param name="sender">the object that caused the change</param>
+            <param name="e">what needs to be redrawn</param></member>
+        <member name="P:SeaGridAdapter.Item(System.Int32,System.Int32)">
+            <summary>
+            Changes the discovery grid. Where there is a ship we will sea water
+            </summary>
+            <param name="x">tile x coordinate</param>
+            <param name="y">tile y coordinate</param>
+            <returns>a tile, either what it actually is, or if it was a ship then return a sea tile</returns></member>
+        <member name="E:SeaGridAdapter.Changed">
+            <summary>
+            Indicates that the grid has been changed
+            </summary></member>
+        <member name="P:SeaGridAdapter.Width">
+            <summary>
+            Get the width of a tile
+            </summary></member>
+        <member name="P:SeaGridAdapter.Height">
+            <summary>
+            Get the height of the tile
+            </summary></member>
+        <member name="M:SeaGridAdapter.HitTile(System.Int32,System.Int32)">
+            <summary>
+            HitTile calls oppon _MyGrid to hit a tile at the row, col
+            </summary>
+            <param name="row">the row its hitting at</param>
+            <param name="col">the column its hitting at</param>
+            <returns>The result from hitting that tile</returns></member>
+        <member name="T:Ship">
+            <summary>
+            A Ship has all the details about itself. For example the shipname,
+            size, number of hits taken and the location. Its able to add tiles,
+            remove, hits taken and if its deployed and destroyed.
+            </summary>
+            <remarks>
+            Deployment information is supplied to allow ships to be drawn.
+            </remarks></member>
+        <member name="P:Ship.Name">
+            <summary>
+            The type of ship
+            </summary>
+            <value>The type of ship</value>
+            <returns>The type of ship</returns></member>
+        <member name="P:Ship.Size">
+            <summary>
+            The number of cells that this ship occupies.
+            </summary>
+            <value>The number of hits the ship can take</value>
+            <returns>The number of hits the ship can take</returns></member>
+        <member name="P:Ship.Hits">
+            <summary>
+            The number of hits that the ship has taken.
+            </summary>
+            <value>The number of hits the ship has taken.</value>
+            <returns>The number of hits the ship has taken</returns>
+            <remarks>When this equals Size the ship is sunk</remarks></member>
+        <member name="P:Ship.Row">
+            <summary>
+            The row location of the ship
+            </summary>
+            <value>The topmost location of the ship</value>
+            <returns>the row of the ship</returns></member>
+        <member name="M:Ship.AddTile(Tile)">
+            <summary>
+            Add tile adds the ship tile
+            </summary>
+            <param name="tile">one of the tiles the ship is on</param></member>
+        <member name="M:Ship.Remove">
+            <summary>
+            Remove clears the tile back to a sea tile
+            </summary></member>
+        <member name="P:Ship.IsDeployed">
+            <summary>
+            IsDeployed returns if the ships is deployed, if its deplyed it has more than
+            0 tiles
+            </summary></member>
+        <member name="M:Ship.Deployed(Direction,System.Int32,System.Int32)">
+            <summary>
+            Record that the ship is now deployed.
+            </summary>
+            <param name="direction"></param>
+            <param name="row"></param>
+            <param name="col"></param></member>
+        <member name="T:ShipName">
+            <summary>
+            The names of all of the ships in the gam
+            </summary>
+            <remarks></remarks></member>
+        <member name="T:Tile">
+            <summary>
+            Tile knows its location on the grid, if it is a ship and if it has been
+            shot before
+            </summary></member>
+        <member name="P:Tile.Shot">
+            <summary>
+            Has the tile been shot?
+            </summary>
+            <value>indicate if the tile has been shot</value>
+            <returns>true if the tile was shot</returns></member>
+        <member name="P:Tile.Row">
+            <summary>
+            The row of the tile in the grid
+            </summary>
+            <value>the row index of the tile in the grid</value>
+            <returns>the row index of the tile</returns></member>
+        <member name="P:Tile.Column">
+            <summary>
+            The column of the tile in the grid
+            </summary>
+            <value>the column of the tile in the grid</value>
+            <returns>the column of the tile in the grid</returns></member>
+        <member name="P:Tile.Ship">
+            <summary>
+            Ship allows for a tile to check if there is ship and add a ship to a tile
+            </summary></member>
+        <member name="M:Tile.#ctor(System.Int32,System.Int32,Ship)">
+            <summary>
+            The tile constructor will know where it is on the grid, and is its a ship
+            </summary>
+            <param name="row">the row on the grid</param>
+            <param name="col">the col on the grid</param>
+            <param name="ship">what ship it is</param></member>
+        <member name="M:Tile.ClearShip">
+            <summary>
+            Clearship will remove the ship from the tile
+            </summary></member>
+        <member name="P:Tile.View">
+            <summary>
+            View is able to tell the grid what the tile is
+            </summary></member>
+        <member name="M:Tile.Shoot">
+            <summary>
+            Shoot allows a tile to be shot at, and if the tile has been hit before
+            it will give an error
+            </summary></member>
+        <member name="T:TileView">
+            <summary>
+            The values that are visable for a given tile.
+            </summary></member>
+        <member name="F:TileView.Sea">
+            <summary>
+            The viewer can see sea
+            </summary>
+            <remarks>
+            May be masking a ship if viewed via a sea adapter
+            </remarks></member>
+        <member name="F:TileView.Miss">
+            <summary>
+            The viewer knows that site was attacked but nothing
+            was hit
+            </summary></member>
+        <member name="F:TileView.Ship">
+            <summary>
+            The viewer can see a ship at this site
+            </summary></member>
+        <member name="F:TileView.Hit">
+            <summary>
+            The viewer knows that the site was attacked and
+            something was hit
+            </summary></member>
+    </members>
+</doc>

@@ -1,0 +1,2 @@
+/Users/Isuru/Developer/OOP Code/Battleships-2.0/obj/x86/Debug-Mac/.NETFramework,Version=v4.0.AssemblyAttribute.cs
+/Users/Isuru/Developer/OOP Code/Battleships-2.0/bin/Debug/SwinGame.dll
