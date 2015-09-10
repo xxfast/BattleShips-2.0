@@ -7,6 +7,9 @@ using System.Data;
 using System.Diagnostics;
 static class GameLogic
 {
+	/// <summary>
+	/// The entry point of the program, where the program control starts and ends.
+	/// </summary>
 	public static void Main()
 	{
 		//Opens a new Graphics Window
