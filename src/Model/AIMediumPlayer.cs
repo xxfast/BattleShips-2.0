@@ -31,6 +31,7 @@ public class AIMediumPlayer : AIPlayer
 	/// The targets.
 	/// </summary>
 	private Stack<Location> _Targets = new Stack<Location>();
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AIMediumPlayer"/> class.
 	/// </summary>
