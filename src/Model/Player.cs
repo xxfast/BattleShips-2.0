@@ -11,7 +11,7 @@ using System.Diagnostics;
 /// </summary>
 public class Player : IEnumerable<Ship>
 {
-	
+
 	protected static Random _Random = new Random();
 	private Dictionary<ShipName, Ship> _Ships = new Dictionary<ShipName, Ship>();
 	private SeaGrid _playerGrid;
@@ -21,9 +21,6 @@ public class Player : IEnumerable<Ship>
 	private int _shots;
 	private int _hits;
 
-	/// <summary>
-	/// The misses.
-	/// </summary>
 	private int _misses;
 	/// <summary>
 	/// Returns the game that the player is part of.
@@ -43,10 +40,6 @@ public class Player : IEnumerable<Ship>
 		set { _enemyGrid = value; }
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Player"/> class.
-	/// </summary>
-	/// <param name="controller">Controller.</param>
 	public Player(BattleShipsGame controller)
 	{
 		_game = controller;
@@ -58,7 +51,7 @@ public class Player : IEnumerable<Ship>
 				_Ships.Add(name, new Ship(name));
 			}
 		}
-	
+
 		RandomizeDeployment();
 	}
 
@@ -83,10 +76,7 @@ public class Player : IEnumerable<Ship>
 	public bool ReadyToDeploy {
 		get { return _playerGrid.AllDeployed; }
 	}
-	/// <summary>
-	/// Gets a value indicating whether this instance is destroyed.
-	/// </summary>
-	/// <value><c>true</c> if this instance is destroyed; otherwise, <c>false</c>.</value>
+
 	public bool IsDestroyed {
 //Check if all ships are destroyed... -1 for the none ship
 		get { return _playerGrid.ShipsKilled == Enum.GetValues(typeof(ShipName)).Length - 1; }
@@ -115,10 +105,6 @@ public class Player : IEnumerable<Ship>
 		get { return _shots; }
 	}
 
-	/// <summary>
-	/// Gets the hits.
-	/// </summary>
-	/// <value>The hits.</value>
 	public int Hits {
 		get { return _hits; }
 	}
@@ -131,10 +117,7 @@ public class Player : IEnumerable<Ship>
 	public int Missed {
 		get { return _misses; }
 	}
-	/// <summary>
-	/// Gets the score.
-	/// </summary>
-	/// <value>The score.</value>
+
 	public int Score {
 		get {
 			if (IsDestroyed) {
@@ -159,10 +142,6 @@ public class Player : IEnumerable<Ship>
 
 		return lst.GetEnumerator();
 	}
-	/// <summary>
-	/// Gets the enumerator.
-	/// </summary>
-	/// <returns>The enumerator.</returns>
 	IEnumerator<Ship> IEnumerable<Ship>.GetEnumerator()
 	{
 		return GetShipEnumerator();
@@ -216,9 +195,7 @@ public class Player : IEnumerable<Ship>
 
 		return result;
 	}
-	/// <summary>
-	/// Randomizes the deployment.
-	/// </summary>
+
 	public virtual void RandomizeDeployment()
 	{
 		bool placementSuccessful = false;

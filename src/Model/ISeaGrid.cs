@@ -12,22 +12,14 @@ using System.Diagnostics;
 public interface ISeaGrid
 {
 
-	/// <summary>
-	/// Gets the width.
-	/// </summary>
-	/// <value>The width.</value>
+
 	int Width { get; }
 
-	/// <summary>
-	/// Gets the height.
-	/// </summary>
-	/// <value>The height.</value>
-
 	int Height { get; }
-
 	/// <summary>
 	/// Indicates that the grid has changed.
 	/// </summary>
+
 	event EventHandler Changed;
 	/// <summary>
 	/// Provides access to the given row/column

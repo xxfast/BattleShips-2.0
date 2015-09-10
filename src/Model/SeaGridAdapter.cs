@@ -12,11 +12,8 @@ using System.Diagnostics;
 public class SeaGridAdapter : ISeaGrid
 {
 
-	/// <summary>
-	/// My grid.
-	/// </summary>
-	private SeaGrid _MyGrid;
 
+	private SeaGrid _MyGrid;
 	/// <summary>
 	/// Create the SeaGridAdapter, with the grid, and it will allow it to be changed
 	/// </summary>
