@@ -78,6 +78,7 @@ public abstract class AIPlayer : Player
 		}
 	}
 
+	/// <summary>
 	/// Initializes a new instance of the <see cref="AIPlayer"/> class.
 	/// </summary>
 	/// <param name="game">Game.</param>
