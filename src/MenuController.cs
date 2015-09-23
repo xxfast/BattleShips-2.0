@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SwinGameSDK;
 
-using static GameController;
 using static UtilityFunctions;
 using static GameResources;
 using static DeploymentController;
@@ -121,7 +120,7 @@ static class MenuController
 	private static bool HandleMenuInput(int menu, int level, int xOffset)
 	{
 		if (SwinGame.KeyTyped(KeyCode.vk_ESCAPE)) {
-			EndCurrentState();
+			GameController.EndCurrentState();
 			return true;
 		}
 
@@ -137,7 +136,7 @@ static class MenuController
 
 			if (level > 0) {
 				//none clicked - so end this sub menu
-				EndCurrentState();
+				GameController.EndCurrentState();
 			}
 		}
 
@@ -272,16 +271,16 @@ static class MenuController
 	{
 		switch (button) {
 			case MAIN_MENU_PLAY_BUTTON:
-				StartGame();
+			GameController.StartGame();
 				break;
 			case MAIN_MENU_SETUP_BUTTON:
-				AddNewState(GameState.AlteringSettings);
+				GameController.AddNewState(GameState.AlteringSettings);
 				break;
 			case MAIN_MENU_TOP_SCORES_BUTTON:
-				AddNewState(GameState.ViewingHighScores);
+				GameController.AddNewState(GameState.ViewingHighScores);
 				break;
 			case MAIN_MENU_QUIT_BUTTON:
-				EndCurrentState();
+				GameController.EndCurrentState();
 				break;
 		}
 	}
@@ -294,17 +293,17 @@ static class MenuController
 	{
 		switch (button) {
 			case SETUP_MENU_EASY_BUTTON:
-				SetDifficulty(AIOption.Hard);
+				GameController.SetDifficulty(AIOption.Hard);
 				break;
 			case SETUP_MENU_MEDIUM_BUTTON:
-				SetDifficulty(AIOption.Hard);
+				GameController.SetDifficulty(AIOption.Hard);
 				break;
 			case SETUP_MENU_HARD_BUTTON:
-				SetDifficulty(AIOption.Hard);
+				GameController.SetDifficulty(AIOption.Hard);
 				break;
 		}
 		//Always end state - handles exit button as well
-		EndCurrentState();
+		GameController.EndCurrentState();
 	}
 
 	/// <summary>
@@ -315,16 +314,16 @@ static class MenuController
 	{
 		switch (button) {
 			case GAME_MENU_RETURN_BUTTON:
-				EndCurrentState();
+				GameController.EndCurrentState();
 				break;
 			case GAME_MENU_SURRENDER_BUTTON:
-				EndCurrentState();
+				GameController.EndCurrentState();
 				//end game menu
-				EndCurrentState();
+				GameController.EndCurrentState();
 				//end game
 				break;
 			case GAME_MENU_QUIT_BUTTON:
-				AddNewState(GameState.Quitting);
+				GameController.AddNewState(GameState.Quitting);
 				break;
 		}
 	}

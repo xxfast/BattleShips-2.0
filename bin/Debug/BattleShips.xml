@@ -193,6 +193,10 @@
             Sets the difficulty for the next level of the game.
             </summary>
             <param name="setting">the new difficulty level</param></member>
+        <member name="T:GameResources">
+            <summary>
+            Game resources.
+            </summary></member>
         <member name="M:GameResources.GameFont(System.String)">
             <summary>
             Gets a Font Loaded in the Resources
@@ -221,6 +225,10 @@
             <summary>
             The Resources Class stores all of the Games Media Resources, such as Images, Fonts
             Sounds, Music.
+            </summary></member>
+        <member name="M:GameResources.FreeResources">
+            <summary>
+            Frees the resources.
             </summary></member>
         <member name="T:GameState">
             <summary>

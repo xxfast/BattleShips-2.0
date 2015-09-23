@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SwinGameSDK;
 
+/// <summary>
+/// Game resources.
+/// </summary>
 public static class GameResources
 {
 
@@ -293,6 +296,9 @@ public static class GameResources
 		}
 	}
 
+	/// <summary>
+	/// Frees the resources.
+	/// </summary>
 	public static void FreeResources()
 	{
 		FreeFonts();
