@@ -7,15 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SwinGameSDK;
 
-using static GameController;
-using static UtilityFunctions;
-using static GameResources;
-using static DeploymentController;
-using static DiscoveryController;
-using static EndingGameController;
-using static MenuController;
-using static HighScoreController;
-
 static class GameLogic
 {
 	public static void Main()
@@ -24,20 +15,20 @@ static class GameLogic
 		SwinGame.OpenGraphicsWindow("Battle Ships", 800, 600);
 
 		//Load Resources
-		LoadResources();
+		GameResources.LoadResources();
 
-		SwinGame.PlayMusic(GameMusic("Background"));
+		SwinGame.PlayMusic(GameResources.GameMusic("Background"));
 
 		//Game Loop
 		do {
-			HandleUserInput();
-			DrawScreen();
-		} while (!(SwinGame.WindowCloseRequested() == true | CurrentState == GameState.Quitting));
+			GameController.HandleUserInput();
+			GameController.DrawScreen();
+		} while (!(SwinGame.WindowCloseRequested() == true | GameController.CurrentState == GameState.Quitting));
 
 		SwinGame.StopMusic();
 
 		//Free Resources and Close Audio, to end the program.
-		FreeResources();
+		GameResources.FreeResources();
 	}
 }
 
