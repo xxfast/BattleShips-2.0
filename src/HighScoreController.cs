@@ -143,6 +143,9 @@ static class HighScoreController
 				SwinGame.DrawText(i + 1 + ":   " + s.Name + "   " + s.Value, Color.White, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
 			}
 		}
+
+		SwinGame.DrawTextLines("BACK", Color.White, Color.Black, GameResources.GameFont("Menu"), FontAlignment.AlignCenter, (SwinGame.ScreenWidth()/2)-37, SCORES_TOP+450, 75, 15);
+
 	}
 
 	/// <summary>
