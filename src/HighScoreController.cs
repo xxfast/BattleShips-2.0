@@ -16,7 +16,7 @@ using SwinGameSDK;
 /// </remarks>
 static class HighScoreController
 {
-	private const int NAME_WIDTH = 3;
+	private const int NAME_WIDTH = 4; //the constant changes the values of the highscores to 4 digits, was 3 previously
 
 	private const int SCORES_LEFT = 350;
 	/// <summary>
