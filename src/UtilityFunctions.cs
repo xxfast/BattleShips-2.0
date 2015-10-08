@@ -179,6 +179,7 @@ static class UtilityFunctions
 		int shipWidth = 0;
 		string shipName = null;
 
+
 		//Draw the ships
 		foreach (Ship s in thePlayer) {
 			if (s == null || !s.IsDeployed)
